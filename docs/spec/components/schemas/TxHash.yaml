@@ -1,0 +1,15 @@
+allOf:
+  - $ref: "#/components/schemas/TxHashKey"
+  - type: object
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - tx_hash
+        properties:
+          tx_hash:
+            type: string
+            example: "0x5964103b7965ddb9403cc822d74771e4702dc82c08f12c6ece8dbe826c7f2cb9"
+

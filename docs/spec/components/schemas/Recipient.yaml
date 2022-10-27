@@ -1,0 +1,12 @@
+type: object
+required:
+  - address
+  - amount
+properties:
+  address:
+    type: string
+    pattern: '^(0x)?[0-9a-fA-F]{40}$'
+    example: "0x9ecd08fc708cdb77a33afd83eb7f5ca4e4344766"
+  amount:
+    type: integer
+    example: 12

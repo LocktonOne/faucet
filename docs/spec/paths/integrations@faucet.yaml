@@ -1,0 +1,43 @@
+post:
+  tags:
+    - Admin Authentication
+  summary: AdminLogin
+  description: Using signed nonce, get a jwt pair for login.
+  operationId: faucet
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              $ref: '#/components/schemas/Send'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                $ref: '#/components/schemas/TxHash'
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - errors
+            properties:
+              errors:
+                type: array
+                items:
+                  $ref: "#/components/responses/NotFound"
+    '500':
+      $ref: "#/components/responses/InternalError"
