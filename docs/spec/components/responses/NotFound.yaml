@@ -1,3 +1,4 @@
+type: object
 description: Not Found
 content:
   application/json:
@@ -9,4 +10,4 @@ content:
         errors:
           type: array
           items:
-            $ref: "#/components/schemas/NotFoundError"
+            $ref: "#/components/schemas/errors/NotFoundError"

@@ -11,6 +11,7 @@ type Config interface {
 	comfig.Logger
 	types.Copuser
 	comfig.Listenerer
+	SenderConfiger
 	AuthConfiger
 }
 
@@ -19,15 +20,17 @@ type config struct {
 	types.Copuser
 	comfig.Listenerer
 	AuthConfiger
+	SenderConfiger
 	getter kv.Getter
 }
 
 func New(getter kv.Getter) Config {
 	return &config{
-		getter:       getter,
-		AuthConfiger: NewAuthConfiger(getter),
-		Copuser:      copus.NewCopuser(getter),
-		Listenerer:   comfig.NewListenerer(getter),
-		Logger:       comfig.NewLogger(getter, comfig.LoggerOpts{}),
+		getter:         getter,
+		SenderConfiger: NewSenderConfiger(getter),
+		AuthConfiger:   NewAuthConfiger(getter),
+		Copuser:        copus.NewCopuser(getter),
+		Listenerer:     comfig.NewListenerer(getter),
+		Logger:         comfig.NewLogger(getter, comfig.LoggerOpts{}),
 	}
 }

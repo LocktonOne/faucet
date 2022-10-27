@@ -5,10 +5,12 @@ import (
 	"gitlab.com/distributed_lab/kit/comfig"
 	"gitlab.com/distributed_lab/kit/kv"
 	"gitlab.com/distributed_lab/logan/v3/errors"
+	"net/url"
 )
 
 type AuthConfiger interface {
 	AuthConfig() *AuthConfig
+	AuthURL() *url.URL
 }
 
 type AuthConfig struct {
@@ -28,7 +30,7 @@ type authConfig struct {
 
 func (c *authConfig) AuthConfig() *AuthConfig {
 	return c.once.Do(func() interface{} {
-		raw := kv.MustGetStringMap(c.getter, "eth_ws")
+		raw := kv.MustGetStringMap(c.getter, "nonce_auth_svc")
 		config := AuthConfig{}
 		err := figure.Out(&config).From(raw).Please()
 		if err != nil {
@@ -37,4 +39,12 @@ func (c *authConfig) AuthConfig() *AuthConfig {
 
 		return &config
 	}).(*AuthConfig)
+}
+
+func (c *authConfig) AuthURL() *url.URL {
+	u, err := url.Parse(c.AuthConfig().Endpoint)
+	if err != nil {
+		panic(err)
+	}
+	return u
 }

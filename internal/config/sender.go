@@ -12,7 +12,8 @@ type SenderConfiger interface {
 }
 
 type SenderConfig struct {
-	Endpoint string `fig:"endpoint"`
+	Address string `fig:"addr"`
+	Amount  uint32 `fig:"amount"`
 }
 
 func NewSenderConfiger(getter kv.Getter) SenderConfiger {
@@ -28,7 +29,7 @@ type senderConfig struct {
 
 func (c *senderConfig) SenderConfig() *SenderConfig {
 	return c.once.Do(func() interface{} {
-		raw := kv.MustGetStringMap(c.getter, "eth_ws")
+		raw := kv.MustGetStringMap(c.getter, "sender")
 		config := AuthConfig{}
 		err := figure.Out(&config).From(raw).Please()
 		if err != nil {
