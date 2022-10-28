@@ -4,10 +4,10 @@ project: "backend"
 image: builder
 from: golang:1.18-alpine
 docker:
-  WORKDIR: /go/src/$PROJECT_NAMESPACE/$PROJECT_NAME
+  WORKDIR: /go/src/gitlab.com/tokene/faucet
 git:
   - add: /
-    to: /go/src/$PROJECT_NAMESPACE/$PROJECT_NAME
+    to: /go/src/gitlab.com/tokene/faucet
     stageDependencies:
       setup:
         - "**/*"
@@ -20,21 +20,21 @@ shell:
     - export CGO_ENABLED=1
     - export GO111MODULE=on
     - export GOOS=linux
-    - cd /go/src/$PROJECT_NAMESPACE/$PROJECT_NAME
+    - cd /go/src/gitlab.com/tokene/faucet
     - go mod tidy
     - go mod vendor
-    - go build -o /usr/local/bin/$PROJECT_NAME /go/src/$PROJECT_NAMESPACE/$PROJECT_NAME
+    - go build -o /usr/local/bin/faucet /go/src/gitlab.com/tokene/faucet
 
 ---
 image: service
 from: alpine:3.9
 docker:
-  ENTRYPOINT: $PROJECT_NAME
+  ENTRYPOINT: faucet
 shell:
   setup:
     - apk add --no-cache ca-certificates
 import:
   - image: builder
-    add: /usr/local/bin/$PROJECT_NAME
-    to: /usr/local/bin/$PROJECT_NAME
+    add: /usr/local/bin/faucet
+    to: /usr/local/bin/faucet
     after: setup
