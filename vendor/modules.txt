@@ -90,8 +90,6 @@ github.com/hashicorp/hcl/hcl/token
 github.com/hashicorp/hcl/json/parser
 github.com/hashicorp/hcl/json/scanner
 github.com/hashicorp/hcl/json/token
-# github.com/konsorten/go-windows-terminal-sequences v1.0.3
-## explicit
 # github.com/magiconair/properties v1.8.0
 ## explicit
 github.com/magiconair/properties
@@ -143,8 +141,8 @@ gitlab.com/distributed_lab/ape/problems
 # gitlab.com/distributed_lab/figure v2.1.0+incompatible
 ## explicit
 gitlab.com/distributed_lab/figure
-# gitlab.com/distributed_lab/figure/v3 v3.1.0
-## explicit; go 1.17
+# gitlab.com/distributed_lab/figure/v3 v3.1.1
+## explicit; go 1.18
 gitlab.com/distributed_lab/figure/v3
 # gitlab.com/distributed_lab/kit v1.11.1
 ## explicit; go 1.14
