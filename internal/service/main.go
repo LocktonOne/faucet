@@ -1,7 +1,7 @@
 package service
 
 import (
-	"gitlab.com/tokene/faucet/internal/service/handlers"
+	"gitlab.com/distributed_lab/logan/v3/errors"
 	"net"
 	"net/http"
 
@@ -17,8 +17,13 @@ type service struct {
 }
 
 func (s *service) run(cfg config.Config) error {
+	r := s.router(cfg)
+	if err := s.copus.RegisterChi(r); err != nil {
+		return errors.Wrap(err, "cop failed")
+	}
 
-	return http.Serve(s.listener, handlers.NewProxy(cfg.AuthURL(), cfg.SenderConfig().Address, cfg.SenderConfig().Amount))
+	return http.Serve(s.listener, r)
+
 }
 
 func newService(cfg config.Config) *service {

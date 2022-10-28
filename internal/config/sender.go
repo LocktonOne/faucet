@@ -1,7 +1,7 @@
 package config
 
 import (
-	"gitlab.com/distributed_lab/figure"
+	"gitlab.com/distributed_lab/figure/v3"
 	"gitlab.com/distributed_lab/kit/comfig"
 	"gitlab.com/distributed_lab/kit/kv"
 	"gitlab.com/distributed_lab/logan/v3/errors"
@@ -12,8 +12,8 @@ type SenderConfiger interface {
 }
 
 type SenderConfig struct {
-	Address string `fig:"addr"`
-	Amount  uint32 `fig:"amount"`
+	Address string  `fig:"addr"`
+	Amount  float32 `fig:"amount"`
 }
 
 func NewSenderConfiger(getter kv.Getter) SenderConfiger {
@@ -30,7 +30,7 @@ type senderConfig struct {
 func (c *senderConfig) SenderConfig() *SenderConfig {
 	return c.once.Do(func() interface{} {
 		raw := kv.MustGetStringMap(c.getter, "sender")
-		config := AuthConfig{}
+		config := SenderConfig{}
 		err := figure.Out(&config).From(raw).Please()
 		if err != nil {
 			panic(errors.Wrap(err, "failed to figure out"))

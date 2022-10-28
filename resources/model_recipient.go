@@ -5,6 +5,6 @@
 package resources
 
 type Recipient struct {
-	Address string `json:"address"`
-	Amount  int32  `json:"amount"`
+	Address string  `json:"address"`
+	Amount  float32 `json:"amount"`
 }
