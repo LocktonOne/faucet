@@ -15,6 +15,8 @@ import (
 	"math/big"
 )
 
+const eth = 10000
+
 type CreateRawTx struct {
 	Jsonrpc string   `json:"jsonrpc"`
 	Method  string   `json:"method"`
@@ -57,8 +59,8 @@ func SignTx(request resources.Send, core string, sender string, amount float32) 
 		log.Fatal(err)
 	}
 
-	value := big.NewInt(int64(amount)) // in wei (1 eth)
-	gasLimit := uint64(21000)          // in units
+	value := big.NewInt(int64(float64(amount) * eth)) // in wei (1 eth)
+	gasLimit := uint64(21000)                         // in units
 	gasPrice, err := client.SuggestGasPrice(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -66,7 +68,7 @@ func SignTx(request resources.Send, core string, sender string, amount float32) 
 
 	toAddress := common.HexToAddress(request.Attributes.Recipient.Address)
 	var data []byte
-	tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, data) //todo fix
+	tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, data)
 
 	chainID, err := client.NetworkID(context.Background())
 	if err != nil {

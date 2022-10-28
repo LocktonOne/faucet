@@ -22,13 +22,13 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	req, _ := http.NewRequest("GET", helpers.AuthConfig(r).Endpoint, nil)
 	req.Header.Set("Authorization", r.Header.Get("Authorization"))
 	authResponse, _ := client.Do(req)
-	//defer authResponse.Body.Close()
+	defer authResponse.Body.Close()
 	if err != nil {
 		helpers.Log(r).WithError(err).Error("failed to get response from nonce-auth-svc")
 		ape.Render(w, problems.InternalError())
 		return
 	}
-	if authResponse.Header.Get("status") != "200" {
+	if authResponse.StatusCode == 200 {
 		helpers.Log(r).WithError(err).Error("bad response code")
 		ape.Render(w, problems.Unauthorized())
 		return
