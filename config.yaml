@@ -2,7 +2,21 @@ log:
   disable_sentry: true
 
 listener:
-  addr: :8000
+  addr: :7891
+
+eth_rpc:
+  endpoint: "http://localhost:8545"
+
+
+nonce_auth_svc:
+  endpoint: "http://localhost:8111/integrations/nonce-auth-svc/created_at"
+
+sender:
+  addr: "0x750Bd531CEA1f68418DDF2373193CfbD86A69058"
+  amount: 12
+
+doorman:
+  service_url: "http://localhost:7779"
 
 cop:
   disabled: true
