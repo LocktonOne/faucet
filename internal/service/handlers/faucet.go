@@ -28,7 +28,7 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		ape.Render(w, problems.InternalError())
 		return
 	}
-	if authResponse.StatusCode == 200 {
+	if authResponse.StatusCode != 200 {
 		helpers.Log(r).WithError(err).Error("bad response code")
 		ape.Render(w, problems.Unauthorized())
 		return
