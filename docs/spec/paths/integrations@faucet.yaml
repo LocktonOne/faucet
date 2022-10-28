@@ -1,8 +1,7 @@
 post:
   tags:
-    - Admin Authentication
-  summary: AdminLogin
-  description: Using signed nonce, get a jwt pair for login.
+    - Faucet
+  summary: faucet
   operationId: faucet
   requestBody:
     content:
