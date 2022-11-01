@@ -15,7 +15,7 @@ import (
 	"math/big"
 )
 
-const eth = 10000
+const eth = 1000000000000000000
 
 type CreateRawTx struct {
 	Jsonrpc string   `json:"jsonrpc"`
