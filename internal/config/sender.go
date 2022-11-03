@@ -12,8 +12,7 @@ type SenderConfiger interface {
 }
 
 type SenderConfig struct {
-	Address string  `fig:"addr"`
-	Amount  float32 `fig:"amount"`
+	Address string `fig:"addr"`
 }
 
 func NewSenderConfiger(getter kv.Getter) SenderConfiger {

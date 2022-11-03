@@ -6,6 +6,7 @@ import (
 	"gitlab.com/distributed_lab/ape/problems"
 	"gitlab.com/tokene/faucet/internal/service/helpers"
 	"gitlab.com/tokene/faucet/internal/service/requests"
+	"gitlab.com/tokene/faucet/internal/txs"
 	"io"
 	"net/http"
 )
@@ -35,15 +36,10 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var signParams string
-	if request.Attributes.Recipient.Amount != 0 {
-		signParams = requests.SignTx(request, helpers.EthRPCConfig(r).Endpoint, helpers.SenderRPCConfig(r).Address, request.Attributes.Recipient.Amount)
 
-	} else {
-		signParams = requests.SignTx(request, helpers.EthRPCConfig(r).Endpoint, helpers.SenderRPCConfig(r).Address, helpers.SenderRPCConfig(r).Amount)
+	signParams = txs.SignTx(request, helpers.EthRPCConfig(r).Endpoint, helpers.SenderRPCConfig(r).Address, request.Attributes.Recipient.Amount)
 
-	}
-
-	rawTx, err := requests.NewCreateRawTx(signParams)
+	rawTx, err := txs.NewCreateRawTx(signParams)
 
 	response, err := http.Post(helpers.EthRPCConfig(r).Endpoint, "application/json", bytes.NewBuffer(rawTx))
 	defer response.Body.Close()
@@ -60,6 +56,6 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write(responseMess)
+	ape.Render(w, responseMess)
 
 }
