@@ -20,21 +20,7 @@ func Faucet(w http.ResponseWriter, r *http.Request) {
 		ape.Render(w, problems.BadRequest(err))
 		return
 	}
-	client := &http.Client{}
-	req, _ := http.NewRequest("GET", helpers.AuthConfig(r).Endpoint, nil)
-	req.Header.Set("Authorization", r.Header.Get("Authorization"))
-	authResponse, _ := client.Do(req)
-	defer authResponse.Body.Close()
-	if err != nil {
-		helpers.Log(r).WithError(err).Error("failed to get response from nonce-auth-svc")
-		ape.Render(w, problems.InternalError())
-		return
-	}
-	if authResponse.StatusCode != 200 {
-		helpers.Log(r).WithError(err).Error("bad response code")
-		ape.Render(w, problems.Unauthorized())
-		return
-	}
+
 	signedTx, err := txs.SignTx(r, request, helpers.EthRPCConfig(r).Endpoint, request.Attributes.Recipient.Amount)
 	if err != nil {
 		helpers.Log(r).WithError(err).Error("failed to create tx")
@@ -57,9 +43,9 @@ func Faucet(w http.ResponseWriter, r *http.Request) {
 		ape.Render(w, problems.BadRequest(err))
 		return
 	}
-	parsedTxResqponse, err := txs.NewParseResultTx(responseMess)
+	parsedTxResponse, err := txs.NewParseResultTx(responseMess)
 	if err != nil {
-		helpers.Log(r).WithError(err).Error("failed to parse response")
+		helpers.Log(r).WithError(err).Error("failed to parse response ")
 		ape.Render(w, problems.BadRequest(err))
 		return
 	}
@@ -67,7 +53,7 @@ func Faucet(w http.ResponseWriter, r *http.Request) {
 	ape.Render(w, resources.TxHashResponse{
 		Data: resources.TxHash{
 			resources.Key{Type: resources.TX_HASH},
-			resources.TxHashAttributes{TxHash: parsedTxResqponse.Result},
+			resources.TxHashAttributes{TxHash: parsedTxResponse.Result},
 		},
 	})
 }

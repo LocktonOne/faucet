@@ -44,7 +44,6 @@ github.com/decred/dcrd/crypto/blake256 v1.0.0 h1:/8DMNYp9SGi5f0w7uCm6d6M4OU2rGFK
 github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 h1:HbphB4TFFXpv7MNrT52FGrrgVXF1owhMVTHFZIlnvd4=
 github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0/go.mod h1:DZGJHZMqrU4JJqFAWUS2UO1+lbSKsdiOoYi9Zzey7Fc=
 github.com/dgraph-io/badger v1.6.0/go.mod h1:zwt7syl517jmP8s94KqSxTlM6IMsdhYy6psNgSztDR4=
-github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2/go.mod h1:SqUrOPUnsFjfmXRMNPybcSiG0BgUW2AuFH8PAnS2iTw=
 github.com/dustin/go-humanize v1.0.0/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
@@ -260,10 +259,6 @@ gitlab.com/distributed_lab/lorem v0.2.0 h1:Rc7Ef3eGSpei8EtWcV6fzPW3O/QEF2zgZR4+h
 gitlab.com/distributed_lab/lorem v0.2.0/go.mod h1:wkzrGoB1L/yUBu56SfoJ/vNiPqiHZcg75AnBkWNcjhQ=
 gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c h1:cpIjV8C//7sLVvMcBaFGopI8sMcCw8Za7T0HIf52esU=
 gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c/go.mod h1:4TnADX84dQjQMRHKIMPCVL0L97rD/Jxv0xDbrN6aKzk=
-gitlab.com/tokene/doorman v0.0.0-20220928142031-13ce24959a81 h1:ghxkf09lbCjKmfx6gW5OUyPM4Wl9K61Q57RvmMChKOc=
-gitlab.com/tokene/doorman v0.0.0-20220928142031-13ce24959a81/go.mod h1:QXfdfOW4D9xXdZNDEh45+epjUJl3AluC3aaEQMuKbTU=
-gitlab.com/tokene/go-sdk v0.1.1 h1:53ZGsgSjpTwRLQra0RCBkMl7btdf0JysUrnq0oWslVo=
-gitlab.com/tokene/go-sdk v0.1.1/go.mod h1:U0RSSkbLyjJZISbSXcPP8L+wqJLml2zqJvSllv86rYk=
 golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=

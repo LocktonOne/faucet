@@ -25,9 +25,6 @@ github.com/deckarep/golang-set
 ## explicit; go 1.17
 github.com/decred/dcrd/dcrec/secp256k1/v4
 github.com/decred/dcrd/dcrec/secp256k1/v4/ecdsa
-# github.com/dgrijalva/jwt-go v3.2.0+incompatible
-## explicit
-github.com/dgrijalva/jwt-go
 # github.com/ethereum/go-ethereum v1.10.25
 ## explicit; go 1.17
 github.com/ethereum/go-ethereum
@@ -179,16 +176,6 @@ gitlab.com/distributed_lab/lorem
 # gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c
 ## explicit
 gitlab.com/distributed_lab/running
-# gitlab.com/tokene/doorman v0.0.0-20220928142031-13ce24959a81
-## explicit; go 1.18
-gitlab.com/tokene/doorman/connector
-gitlab.com/tokene/doorman/connector/config
-gitlab.com/tokene/doorman/internal/config
-gitlab.com/tokene/doorman/internal/service/helpers
-gitlab.com/tokene/doorman/resources
-# gitlab.com/tokene/go-sdk v0.1.1
-## explicit; go 1.18
-gitlab.com/tokene/go-sdk
 # golang.org/x/crypto v0.1.0
 ## explicit; go 1.17
 golang.org/x/crypto/pbkdf2
