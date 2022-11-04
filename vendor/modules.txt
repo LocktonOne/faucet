@@ -31,6 +31,11 @@ github.com/dgrijalva/jwt-go
 # github.com/ethereum/go-ethereum v1.10.25
 ## explicit; go 1.17
 github.com/ethereum/go-ethereum
+github.com/ethereum/go-ethereum/accounts
+github.com/ethereum/go-ethereum/accounts/abi
+github.com/ethereum/go-ethereum/accounts/abi/bind
+github.com/ethereum/go-ethereum/accounts/external
+github.com/ethereum/go-ethereum/accounts/keystore
 github.com/ethereum/go-ethereum/common
 github.com/ethereum/go-ethereum/common/hexutil
 github.com/ethereum/go-ethereum/common/math
@@ -42,6 +47,7 @@ github.com/ethereum/go-ethereum/crypto/secp256k1/libsecp256k1/include
 github.com/ethereum/go-ethereum/crypto/secp256k1/libsecp256k1/src
 github.com/ethereum/go-ethereum/crypto/secp256k1/libsecp256k1/src/modules/recovery
 github.com/ethereum/go-ethereum/ethclient
+github.com/ethereum/go-ethereum/event
 github.com/ethereum/go-ethereum/log
 github.com/ethereum/go-ethereum/metrics
 github.com/ethereum/go-ethereum/p2p/netutil
@@ -49,6 +55,7 @@ github.com/ethereum/go-ethereum/params
 github.com/ethereum/go-ethereum/rlp
 github.com/ethereum/go-ethereum/rlp/internal/rlpstruct
 github.com/ethereum/go-ethereum/rpc
+github.com/ethereum/go-ethereum/signer/core/apitypes
 # github.com/fsnotify/fsnotify v1.4.7
 ## explicit
 github.com/fsnotify/fsnotify
@@ -75,6 +82,9 @@ github.com/go-stack/stack
 # github.com/google/jsonapi v0.0.0-20200226002910-c8283f632fb7
 ## explicit
 github.com/google/jsonapi
+# github.com/google/uuid v1.2.0
+## explicit
+github.com/google/uuid
 # github.com/gorilla/websocket v1.4.2
 ## explicit; go 1.12
 github.com/gorilla/websocket
@@ -105,6 +115,9 @@ github.com/pelletier/go-toml
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
+# github.com/rjeczalik/notify v0.9.1
+## explicit
+github.com/rjeczalik/notify
 # github.com/shirou/gopsutil v3.21.4-0.20210419000835-c7a38de76ee5+incompatible
 ## explicit
 github.com/shirou/gopsutil/cpu
@@ -178,6 +191,8 @@ gitlab.com/tokene/doorman/resources
 gitlab.com/tokene/go-sdk
 # golang.org/x/crypto v0.1.0
 ## explicit; go 1.17
+golang.org/x/crypto/pbkdf2
+golang.org/x/crypto/scrypt
 golang.org/x/crypto/sha3
 # golang.org/x/sys v0.1.0
 ## explicit; go 1.17

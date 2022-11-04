@@ -7,11 +7,12 @@ import (
 	"gitlab.com/tokene/faucet/internal/service/helpers"
 	"gitlab.com/tokene/faucet/internal/service/requests"
 	"gitlab.com/tokene/faucet/internal/txs"
+	"gitlab.com/tokene/faucet/resources"
 	"io"
 	"net/http"
 )
 
-func ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func Faucet(w http.ResponseWriter, r *http.Request) {
 
 	request, err := requests.NewCreateRequest(r)
 	if err != nil {
@@ -34,12 +35,13 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		ape.Render(w, problems.Unauthorized())
 		return
 	}
-
-	var signParams string
-
-	signParams = txs.SignTx(request, helpers.EthRPCConfig(r).Endpoint, helpers.SenderRPCConfig(r).Address, request.Attributes.Recipient.Amount)
-
-	rawTx, err := txs.NewCreateRawTx(signParams)
+	signedTx, err := txs.SignTx(r, request, helpers.EthRPCConfig(r).Endpoint, request.Attributes.Recipient.Amount)
+	if err != nil {
+		helpers.Log(r).WithError(err).Error("failed to create tx")
+		ape.Render(w, problems.InternalError())
+		return
+	}
+	rawTx, err := txs.NewCreateRawTx(signedTx)
 
 	response, err := http.Post(helpers.EthRPCConfig(r).Endpoint, "application/json", bytes.NewBuffer(rawTx))
 	defer response.Body.Close()
@@ -55,7 +57,17 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		ape.Render(w, problems.BadRequest(err))
 		return
 	}
+	parsedTxResqponse, err := txs.NewParseResultTx(responseMess)
+	if err != nil {
+		helpers.Log(r).WithError(err).Error("failed to parse response")
+		ape.Render(w, problems.BadRequest(err))
+		return
+	}
 
-	ape.Render(w, responseMess)
-
+	ape.Render(w, resources.TxHashResponse{
+		Data: resources.TxHash{
+			resources.Key{Type: resources.TX_HASH},
+			resources.TxHashAttributes{TxHash: parsedTxResqponse.Result},
+		},
+	})
 }

@@ -3,8 +3,8 @@ package helpers
 import (
 	"context"
 	"gitlab.com/distributed_lab/logan/v3"
-	"gitlab.com/tokene/doorman/connector"
 	"gitlab.com/tokene/faucet/internal/config"
+	"gitlab.com/tokene/faucet/internal/signature"
 
 	"net/http"
 )
@@ -15,8 +15,7 @@ const (
 	logCtxKey ctxKey = iota
 	authConfigCtxKey
 	ethrpcConfigCtxKey
-	senderConfigCtxKey
-	doormanConnectorCtxKey
+	signerCtxKey
 )
 
 func CtxLog(entry *logan.Entry) func(context.Context) context.Context {
@@ -49,22 +48,12 @@ func EthRPCConfig(r *http.Request) *config.EthRPCConfig {
 	return r.Context().Value(ethrpcConfigCtxKey).(*config.EthRPCConfig)
 }
 
-func CtxSenderRPCConfig(entry *config.SenderConfig) func(context.Context) context.Context {
+func CtxSigner(entry signature.Signer) func(context.Context) context.Context {
 	return func(ctx context.Context) context.Context {
-		return context.WithValue(ctx, senderConfigCtxKey, entry)
+		return context.WithValue(ctx, signerCtxKey, entry)
 	}
 }
 
-func SenderRPCConfig(r *http.Request) *config.SenderConfig {
-	return r.Context().Value(senderConfigCtxKey).(*config.SenderConfig)
-}
-
-func CtxDoormanConnector(entry connector.ConnectorI) func(context.Context) context.Context {
-	return func(ctx context.Context) context.Context {
-		return context.WithValue(ctx, doormanConnectorCtxKey, entry)
-	}
-}
-
-func DoormanConnector(r *http.Request) connector.ConnectorI {
-	return r.Context().Value(doormanConnectorCtxKey).(connector.ConnectorI)
+func Signer(r *http.Request) signature.Signer {
+	return r.Context().Value(signerCtxKey).(signature.Signer)
 }

@@ -17,15 +17,14 @@ func (s *service) router(cfg config.Config) chi.Router {
 		ape.LoganMiddleware(s.log),
 		ape.CtxMiddleware(
 			helpers.CtxLog(s.log),
-			helpers.CtxSenderRPCConfig(cfg.SenderConfig()),
+			helpers.CtxSigner(cfg.Signer()),
 			helpers.CtxEthRPCConfig(cfg.EthRPCConfig()),
 			helpers.CtxAuthConfig(cfg.AuthConfig()),
-			helpers.CtxDoormanConnector(cfg.DoormanConnector()),
 		),
 	)
 
 	r.Route("/integrations/faucet", func(r chi.Router) {
-		r.Post("/", handlers.ServeHTTP)
+		r.Post("/", handlers.Faucet)
 	})
 
 	return r

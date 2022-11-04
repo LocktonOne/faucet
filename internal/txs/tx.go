@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"gitlab.com/tokene/faucet/internal/service/helpers"
 	"gitlab.com/tokene/faucet/resources"
-	"log"
 	"math/big"
+	"net/http"
 )
 
 const eth = 1000000000000000000
@@ -22,6 +22,18 @@ type CreateRawTx struct {
 	Method  string   `json:"method"`
 	Params  []string `json:"params"`
 	Id      int64    `json:"id"`
+}
+
+type ParseResultTx struct {
+	Jsonrpc string `json:"jsonrpc"`
+	Result  string `json:"result"`
+	Id      int64  `json:"id"`
+}
+
+func NewParseResultTx(result []byte) (ParseResultTx, error) {
+	parseResultTx := ParseResultTx{}
+	err := json.Unmarshal(result, &parseResultTx)
+	return parseResultTx, err
 }
 
 func NewCreateRawTx(params string) ([]byte, error) {
@@ -39,51 +51,59 @@ func NewCreateRawTx(params string) ([]byte, error) {
 
 }
 
-func SignTx(request resources.Send, core string, sender string, amount float32) string {
+func SignTx(r *http.Request, request resources.Send, core string, amount float32) (string, error) {
 
 	client, err := ethclient.Dial(core)
 
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	privateKey, err := crypto.HexToECDSA("1a6e0674272af1dbffec2eb4188de8b311abc48046a38f5cbf6db55eb4fe9597")
+	signer := helpers.Signer(r)
+
+	nonce, err := client.PendingNonceAt(context.Background(), signer.Address())
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	fromAddress := common.HexToAddress(sender)
+	valueF := big.NewFloat(1)
+	valueF.Mul(big.NewFloat(float64(eth)), big.NewFloat(float64(amount))) // in wei (1 eth)
 
-	nonce, err := client.PendingNonceAt(context.Background(), fromAddress)
-	if err != nil {
-		log.Fatal(err)
-	}
+	value := new(big.Int)
+	valueF.Int(value)
 
-	value := big.NewInt(int64(float64(amount) * eth)) // in wei (1 eth)
-	gasLimit := uint64(21000)                         // in units
+	gasLimit := uint64(210000) // in units// in units
 	gasPrice, err := client.SuggestGasPrice(context.Background())
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
 	toAddress := common.HexToAddress(request.Attributes.Recipient.Address)
 	var data []byte
-	tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, data)
 
+	tx := types.NewTx(&types.LegacyTx{
+		Nonce:    nonce,
+		To:       &toAddress,
+		Value:    value,
+		Gas:      gasLimit,
+		GasPrice: gasPrice,
+		Data:     data,
+	})
 	chainID, err := client.NetworkID(context.Background())
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
+	signedTx, err := signer.SignTx(tx, chainID)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	ts := types.Transactions{signedTx}
+	txs := types.Transactions{signedTx}
 	b := new(bytes.Buffer)
-	ts.EncodeIndex(0, b)
+	txs.EncodeIndex(0, b)
 	rawTxBytes := b.Bytes()
-	return hex.EncodeToString(rawTxBytes)
+
+	return hex.EncodeToString(rawTxBytes), nil
 
 }
