@@ -1,11 +1,7 @@
 package txs
 
 import (
-	"bytes"
 	"context"
-	"encoding/hex"
-	"encoding/json"
-	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -30,40 +26,13 @@ type ParseResultTx struct {
 	Id      int64  `json:"id"`
 }
 
-func NewParseResultTx(result []byte) (ParseResultTx, error) {
-	parseResultTx := ParseResultTx{}
-	err := json.Unmarshal(result, &parseResultTx)
-	return parseResultTx, err
-}
-
-func NewCreateRawTx(params string) ([]byte, error) {
-	tx := CreateRawTx{}
-	tx.Jsonrpc = "2.0"
-	tx.Method = "eth_sendRawTransaction"
-	tx.Params = append(tx.Params, fmt.Sprint("0x", params))
-	tx.Id = 1
-
-	rawTX, err := json.Marshal(tx)
-	if err != nil {
-		return rawTX, err
-	}
-	return rawTX, nil
-
-}
-
-func SignTx(r *http.Request, request resources.Send, core string, amount float32) (string, error) {
-
-	client, err := ethclient.Dial(core)
-
-	if err != nil {
-		return "", err
-	}
+func SignTx(r *http.Request, request resources.Send, client *ethclient.Client, amount float32) (*types.Transaction, error) {
 
 	signer := helpers.Signer(r)
 
 	nonce, err := client.PendingNonceAt(context.Background(), signer.Address())
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	valueF := big.NewFloat(1)
@@ -75,7 +44,7 @@ func SignTx(r *http.Request, request resources.Send, core string, amount float32
 	gasLimit := uint64(210000) // in units// in units
 	gasPrice, err := client.SuggestGasPrice(context.Background())
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	toAddress := common.HexToAddress(request.Attributes.Recipient.Address)
@@ -91,19 +60,14 @@ func SignTx(r *http.Request, request resources.Send, core string, amount float32
 	})
 	chainID, err := client.NetworkID(context.Background())
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	signedTx, err := signer.SignTx(tx, chainID)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	txs := types.Transactions{signedTx}
-	b := new(bytes.Buffer)
-	txs.EncodeIndex(0, b)
-	rawTxBytes := b.Bytes()
-
-	return hex.EncodeToString(rawTxBytes), nil
+	return signedTx, nil
 
 }
