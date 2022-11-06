@@ -36,7 +36,7 @@ func SignTx(r *http.Request, request resources.Send, client *ethclient.Client, a
 	}
 
 	valueF := big.NewFloat(1)
-	valueF.Mul(big.NewFloat(float64(eth)), big.NewFloat(float64(amount))) // in wei (1 eth)
+	valueF.Mul(big.NewFloat(float64(eth)), big.NewFloat(float64(amount)))
 
 	value := new(big.Int)
 	valueF.Int(value)

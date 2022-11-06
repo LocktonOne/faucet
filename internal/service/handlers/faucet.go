@@ -30,11 +30,17 @@ func Faucet(w http.ResponseWriter, r *http.Request) {
 		ape.Render(w, problems.InternalError())
 		return
 	}
+	err = client.SendTransaction(context.TODO(), signedTx)
+	if err != nil {
+		helpers.Log(r).WithError(err).Error("failed to send tx")
+		ape.Render(w, problems.InternalError())
+		return
+	}
 
 	for {
 		_, isPending, err := client.TransactionByHash(context.TODO(), signedTx.Hash())
 		if err != nil {
-			helpers.Log(r).WithError(err).Error("failed to create tx")
+			helpers.Log(r).WithError(err).Error("failed to get tx")
 			ape.Render(w, problems.InternalError())
 			return
 		}
@@ -49,7 +55,7 @@ func Faucet(w http.ResponseWriter, r *http.Request) {
 	ape.Render(w, resources.TxHashResponse{
 		Data: resources.TxHash{
 			resources.Key{Type: resources.TX_HASH},
-			resources.TxHashAttributes{TxHash: signedTx.Hash().String()},
+			resources.TxHashAttributes{TxHash: signedTx.Hash().Hex()},
 		},
 	})
 }

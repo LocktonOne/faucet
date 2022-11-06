@@ -5,5 +5,10 @@
 package resources
 
 type SendAttributes struct {
-	Recipient Recipient `json:"recipient"`
+	Recipient SendAttributesRecipient `json:"recipient"`
+}
+
+type SendAttributesRecipient struct {
+	Address string  `json:"address"`
+	Amount  float32 `json:"amount"`
 }
