@@ -7,16 +7,11 @@ listener:
 eth_rpc:
   endpoint: "http://localhost:8545"
 
-
 nonce_auth_svc:
   endpoint: "http://localhost:8111/integrations/nonce-auth-svc/created_at"
 
-sender:
-  addr: "0x750Bd531CEA1f68418DDF2373193CfbD86A69058"
-  amount: 12
-
-doorman:
-  service_url: "http://localhost:7779"
+signer:
+  eth_signer: "1a6e0674272af1dbffec2eb4188de8b311abc48046a38f5cbf6db55eb4fe9597"
 
 cop:
   disabled: true
