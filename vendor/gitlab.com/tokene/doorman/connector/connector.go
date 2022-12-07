@@ -3,6 +3,7 @@ package connector
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -81,7 +82,7 @@ func (c Connector) GetAuthToken(r *http.Request) (string, error) {
 	return helpers.Authenticate(r)
 }
 
-func (c Connector) CheckPermission(owner string, token string) error {
+func (c Connector) CheckPermission(owner, token string) error {
 	response, err := c.DoAuthRequest("GET", c.ServiceUrl+"/check_permission/"+owner, token, nil, http.StatusNoContent)
 	if err != nil {
 		return err
@@ -90,8 +91,8 @@ func (c Connector) CheckPermission(owner string, token string) error {
 	return nil
 }
 
-func (c Connector) CheckPermissionID(id string, token string) error {
-	response, err := c.DoAuthRequest("GET", c.ServiceUrl+"/check_permission?id="+id, token, nil, http.StatusNoContent)
+func (c Connector) CheckPermissionID(id, resource, token string) error {
+	response, err := c.DoAuthRequest("GET", fmt.Sprintf("%s/check_permission?id=%s&resource=%s", c.ServiceUrl, id, resource), token, nil, http.StatusNoContent)
 	if err != nil {
 		return err
 	}

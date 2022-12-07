@@ -304,7 +304,7 @@ gitlab.com/distributed_lab/lorem
 # gitlab.com/distributed_lab/running v0.0.0-20200706131153-4af0e83eb96c
 ## explicit
 gitlab.com/distributed_lab/running
-# gitlab.com/tokene/doorman v0.0.0-20221207094142-e343b35791e4
+# gitlab.com/tokene/doorman v0.0.0-20221207111314-c37ebd23db83
 ## explicit; go 1.18
 gitlab.com/tokene/doorman/connector
 gitlab.com/tokene/doorman/connector/config

@@ -30,16 +30,6 @@ func Log(r *http.Request) *logan.Entry {
 	return r.Context().Value(logCtxKey).(*logan.Entry)
 }
 
-func CtxAuthConfig(entry *config.AuthConfig) func(context.Context) context.Context {
-	return func(ctx context.Context) context.Context {
-		return context.WithValue(ctx, authConfigCtxKey, entry)
-	}
-}
-
-func AuthConfig(r *http.Request) *config.AuthConfig {
-	return r.Context().Value(authConfigCtxKey).(*config.AuthConfig)
-}
-
 func CtxEthRPCConfig(entry *config.EthRPCConfig) func(context.Context) context.Context {
 	return func(ctx context.Context) context.Context {
 		return context.WithValue(ctx, ethrpcConfigCtxKey, entry)

@@ -69,5 +69,3 @@ func CtxEthRPCConfig(entry *config.EthRPCConfig) func(context.Context) context.C
 func EthRPCConfig(r *http.Request) *config.EthRPCConfig {
 	return r.Context().Value(ethrpcConfigCtxKey).(*config.EthRPCConfig)
 }
-
-var Cfg config.Config

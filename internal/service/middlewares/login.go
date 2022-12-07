@@ -27,7 +27,7 @@ func Login() func(http.Handler) http.Handler {
 			}
 			if request.Attributes.Recipient.Address != address {
 				doorman := helpers.DoormanConnector(r)
-				err := doorman.CheckPermissionID("CREATE", token)
+				err := doorman.CheckPermissionID("CREATE", "*", token)
 				if err == nil {
 					next.ServeHTTP(w, r)
 				}

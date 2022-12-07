@@ -428,6 +428,8 @@ gitlab.com/tokene/doorman v0.0.0-20221207092245-b30b2ddc4728 h1:qZGRX6bByuDeRtnK
 gitlab.com/tokene/doorman v0.0.0-20221207092245-b30b2ddc4728/go.mod h1:xYfiWykgfv9Nk6Q8c32a1RZVi6g4EZg0I1e147+nyn8=
 gitlab.com/tokene/doorman v0.0.0-20221207094142-e343b35791e4 h1:ksire5HnJUNmCABaUZq1nkJ/vJ56ZoZJs9fZtdtKghY=
 gitlab.com/tokene/doorman v0.0.0-20221207094142-e343b35791e4/go.mod h1:xYfiWykgfv9Nk6Q8c32a1RZVi6g4EZg0I1e147+nyn8=
+gitlab.com/tokene/doorman v0.0.0-20221207111314-c37ebd23db83 h1:gbuNJ6ZQOdgVcsdfMZDJVnwR9vcVeOJc4sscUY1MboU=
+gitlab.com/tokene/doorman v0.0.0-20221207111314-c37ebd23db83/go.mod h1:xYfiWykgfv9Nk6Q8c32a1RZVi6g4EZg0I1e147+nyn8=
 gitlab.com/tokene/go-sdk v0.1.1 h1:53ZGsgSjpTwRLQra0RCBkMl7btdf0JysUrnq0oWslVo=
 gitlab.com/tokene/go-sdk v0.1.1/go.mod h1:U0RSSkbLyjJZISbSXcPP8L+wqJLml2zqJvSllv86rYk=
 go.opentelemetry.io/proto/otlp v0.7.0/go.mod h1:PqfVotwruBrMGOCsRd/89rSnXhoiJIqeYNgFYFoEGnI=

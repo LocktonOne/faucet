@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/ethereum/go-ethereum/ethclient"
-	"gitlab.com/distributed_lab/figure"
+	"gitlab.com/distributed_lab/figure/v3"
 	"gitlab.com/distributed_lab/kit/comfig"
 	"gitlab.com/distributed_lab/kit/kv"
 	"gitlab.com/distributed_lab/logan/v3/errors"
@@ -55,8 +55,4 @@ func (c *EthRPCConfig) EthClient() *ethclient.Client {
 		return nil
 	}
 	return client
-}
-
-func (c config) GetClient() *ethclient.Client {
-	return c.EthClient
 }

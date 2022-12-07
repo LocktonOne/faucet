@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/ethereum/go-ethereum/ethclient"
 	"gitlab.com/distributed_lab/kit/comfig"
 	"gitlab.com/distributed_lab/kit/copus"
 	"gitlab.com/distributed_lab/kit/copus/types"
@@ -15,7 +14,6 @@ type Config interface {
 	ServiceConfiger
 	VaultConfiger
 	EthRPCConfiger
-	GetClient() *ethclient.Client
 }
 
 type config struct {
@@ -26,7 +24,6 @@ type config struct {
 	ServiceConfiger
 	VaultConfiger
 	EthRPCConfiger
-	EthClient *ethclient.Client
 }
 
 func New(getter kv.Getter) Config {
@@ -38,6 +35,5 @@ func New(getter kv.Getter) Config {
 		ServiceConfiger: NewServiceConfiger(getter),
 		VaultConfiger:   NewVaultConfiger(getter),
 		EthRPCConfiger:  NewEthRPCConfiger(getter),
-		EthClient:       NewEthRPCConfiger(getter).EthRPCConfig().EthClient(),
 	}
 }
