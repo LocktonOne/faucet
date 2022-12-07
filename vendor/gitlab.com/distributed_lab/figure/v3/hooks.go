@@ -226,6 +226,11 @@ var (
 				for key, value := range s {
 					params[key.(string)] = value
 				}
+			case map[string]interface{}:
+				params = make(map[string]interface{})
+				for key, value := range s {
+					params[key] = value
+				}
 			default:
 				return reflect.Value{}, errors.New("unexpected type while figure []json.RawMessage")
 			}
@@ -235,6 +240,26 @@ var (
 				return reflect.Value{}, errors.Wrap(err, "failed to parse json.RawMessage")
 			}
 			return reflect.ValueOf(json.RawMessage(result)), nil
+		},
+		"map[string]interface {}": func(value interface{}) (reflect.Value, error) {
+			if value == nil {
+				return reflect.Value{}, nil
+			}
+
+			var params map[string]interface{}
+			switch s := value.(type) {
+			case map[interface{}]interface{}:
+				params = make(map[string]interface{})
+				for key, value := range s {
+					params[key.(string)] = value
+				}
+			case map[string]interface{}:
+				params = s
+			default:
+				return reflect.Value{}, errors.New("unexpected type while figure map[string]interface{}")
+			}
+
+			return reflect.ValueOf(params), nil
 		},
 	}
 )

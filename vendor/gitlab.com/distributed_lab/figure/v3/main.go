@@ -86,7 +86,7 @@ func (f *Figurator) Please() error {
 	}
 
 	vv := reflect.ValueOf(f.target)
-	if vv.Kind() != reflect.Ptr {
+	if vv.Kind() != reflect.Pointer {
 		return fmt.Errorf("can't decode to non-pointer '%v' - use & operator", vv.Type().String())
 	}
 	if vv.IsNil() && !vv.CanSet() {
@@ -316,7 +316,7 @@ type IsZeroer interface {
 func isZero(v reflect.Value) bool {
 	kind := v.Kind()
 	if z, ok := v.Interface().(IsZeroer); ok {
-		if (kind == reflect.Ptr || kind == reflect.Interface) && v.IsNil() {
+		if (kind == reflect.Pointer || kind == reflect.Interface) && v.IsNil() {
 			return true
 		}
 		return z.IsZero()
@@ -324,7 +324,7 @@ func isZero(v reflect.Value) bool {
 	switch kind {
 	case reflect.String:
 		return len(v.String()) == 0
-	case reflect.Interface, reflect.Ptr:
+	case reflect.Interface, reflect.Pointer:
 		return v.IsNil()
 	case reflect.Slice:
 		return v.Len() == 0

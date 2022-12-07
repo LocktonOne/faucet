@@ -3,6 +3,7 @@ package helpers
 import (
 	"context"
 	"gitlab.com/distributed_lab/logan/v3"
+	"gitlab.com/tokene/doorman/connector"
 	"gitlab.com/tokene/faucet/internal/config"
 	"gitlab.com/tokene/faucet/internal/signature"
 
@@ -16,6 +17,7 @@ const (
 	authConfigCtxKey
 	ethrpcConfigCtxKey
 	signerCtxKey
+	doormanConnectorCtxKey
 )
 
 func CtxLog(entry *logan.Entry) func(context.Context) context.Context {
@@ -56,4 +58,14 @@ func CtxSigner(entry signature.Signer) func(context.Context) context.Context {
 
 func Signer(r *http.Request) signature.Signer {
 	return r.Context().Value(signerCtxKey).(signature.Signer)
+}
+
+func DoormanConnector(r *http.Request) connector.ConnectorI {
+	return r.Context().Value(doormanConnectorCtxKey).(connector.ConnectorI)
+}
+
+func CtxDoormanConnector(entry connector.ConnectorI) func(context.Context) context.Context {
+	return func(ctx context.Context) context.Context {
+		return context.WithValue(ctx, doormanConnectorCtxKey, entry)
+	}
 }

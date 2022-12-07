@@ -20,6 +20,7 @@ func (s *service) router(cfg config.Config) chi.Router {
 			helpers.CtxSigner(cfg.Signer()),
 			helpers.CtxEthRPCConfig(cfg.EthRPCConfig()),
 			helpers.CtxAuthConfig(cfg.AuthConfig()),
+			helpers.CtxDoormanConnector(cfg.DoormanConnector()),
 		),
 		middlewares.Login(),
 	)
