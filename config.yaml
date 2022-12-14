@@ -2,14 +2,13 @@ log:
   disable_sentry: true
 
 listener:
-  addr: :7891
+  addr: :7898
 
 eth_rpc:
   endpoint: "http://localhost:8545"
 
-nonce_auth_svc:
-  endpoint: "http://localhost:8111/integrations/nonce-auth-svc/created_at"
-
+doorman:
+  service_url: "http://localhost:7899"
 signer:
   eth_signer: "1a6e0674272af1dbffec2eb4188de8b311abc48046a38f5cbf6db55eb4fe9597"
 
