@@ -130,20 +130,15 @@ func Authenticate(r *http.Request) (string, error) {
 }
 
 func GetAccessTokenInfo(r *http.Request) (string, string, error) {
-	//token, err := Authenticate(r)
-	//if err != nil {
-	//	return "", "", err
-	//}
-	//
-	//purpose, address, _ := RetrieveAccessToken(token, r)
-	//
-	//return purpose, address, err
-	//
-	token, _ := Authenticate(r)
+	token, err := Authenticate(r)
+	if err != nil {
+		return "", "", err
+	}
 
 	purpose, address, _ := RetrieveAccessToken(token, r)
 
-	return purpose, address, nil
+	return purpose, address, err
+
 }
 
 func GetTokenInfo(r *http.Request) (string, error) {
