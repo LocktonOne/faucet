@@ -42,7 +42,7 @@ func (c Connector) DoAuthRequest(method string, url string, token string, body i
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to send request")
 	}
-	if 200 <= response.StatusCode && response.StatusCode < 300 {
+	if !(200 <= response.StatusCode && response.StatusCode < 300) {
 		response.Body.Close()
 		return nil, errors.New("Bad status")
 	}

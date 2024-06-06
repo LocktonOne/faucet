@@ -14,7 +14,6 @@ import (
 )
 
 func Faucet(w http.ResponseWriter, r *http.Request) {
-
 	client, err := ethclient.Dial(helpers.EthRPCConfig(r).Endpoint)
 
 	request, err := requests.NewCreateRequest(r)
@@ -23,7 +22,19 @@ func Faucet(w http.ResponseWriter, r *http.Request) {
 		ape.Render(w, problems.BadRequest(err))
 		return
 	}
-
+	if request.Attributes.Recipient.Address != helpers.Address(r) {
+		doorman := helpers.DoormanConnector(r)
+		if err = doorman.CheckPermissionID("CREATE", "*", helpers.Token(r)); err != nil {
+			helpers.Log(r).WithError(err).Error("haven't permission for this operation")
+			ape.Render(w, problems.BadRequest(err))
+			return
+		}
+	}
+	if err = r.Body.Close(); err != nil {
+		helpers.Log(r).WithError(err).Error("failed to close body")
+		ape.Render(w, problems.InternalError())
+		return
+	}
 	signedTx, err := txs.SignTx(r, request, client, request.Attributes.Recipient.Amount)
 	if err != nil {
 		helpers.Log(r).WithError(err).Error("failed to create tx")

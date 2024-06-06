@@ -59,3 +59,11 @@ func CtxDoormanConnector(entry connector.ConnectorI) func(context.Context) conte
 		return context.WithValue(ctx, doormanConnectorCtxKey, entry)
 	}
 }
+
+func Token(r *http.Request) string {
+	return r.Context().Value("token").(string)
+}
+
+func Address(r *http.Request) string {
+	return r.Context().Value("address").(string)
+}

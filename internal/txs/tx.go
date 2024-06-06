@@ -58,7 +58,7 @@ func SignTx(r *http.Request, request resources.Send, client *ethclient.Client, a
 		GasPrice: gasPrice,
 		Data:     data,
 	})
-	chainID, err := client.NetworkID(context.Background())
+	chainID, err := client.ChainID(context.Background())
 	if err != nil {
 		return nil, err
 	}
